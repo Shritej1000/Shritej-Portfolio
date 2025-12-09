@@ -326,12 +326,24 @@
     </footer>
 
     <script>
-        // 1. SPLASH SCREEN (Click to Enter)
-        const loader = document.getElementById("loader");
-        loader.addEventListener("click", function() {
-            loader.classList.add("hidden");
-            document.body.style.overflow = "auto";
-        });
+        // 1. SMART SPLASH SCREEN LOGIC
+const loader = document.getElementById("loader");
+
+// Check if the user has already entered the site in this session
+if (sessionStorage.getItem("siteVisited") === "true") {
+    // If yes, hide loader immediately (Instant Load)
+    loader.style.display = "none"; 
+    document.body.style.overflow = "auto"; 
+} else {
+    // If no, show the "Click to Enter" screen
+    loader.addEventListener("click", function() {
+        loader.classList.add("hidden");
+        document.body.style.overflow = "auto";
+        
+        // Save the flag so it doesn't show again
+        sessionStorage.setItem("siteVisited", "true");
+    });
+}
         document.body.style.overflow = "hidden"; // Lock scroll initially
 
         // 2. SCROLL PROGRESS
