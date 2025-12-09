@@ -10,14 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
+        /* --- GLOBAL RESET --- */
+        img { max-width: 100%; height: auto; display: block; }
 
-        /* Add this near the top of your <style> block */
-img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-}
-        /* --- COPYING CORE STYLES FROM MAIN PAGE --- */
+        /* --- CORE STYLES --- */
         :root {
             --bg-color: #F9F9FB;
             --text-primary: #111111;
@@ -34,30 +30,26 @@ img {
         
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
         
-        /* --- NAV (SIMPLIFIED FOR PROJECT PAGES) --- */
+        /* --- NAV --- */
         nav { padding: 32px 0; border-bottom: 1px solid #E5E5E5; margin-bottom: 60px; }
         .nav-content { display: flex; justify-content: space-between; align-items: center; }
         .logo { font-weight: 600; font-size: 1.1rem; }
         .back-link { font-size: 0.9rem; color: var(--text-secondary); }
 
-        /* --- PROJECT HERO --- */
-        .project-hero { padding: 60px 0 100px; text-align: center; }
+        /* --- HERO --- */
+        .project-hero { padding: 60px 0 60px; text-align: center; } /* Reduced bottom padding */
         .project-hero h1 { font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 16px; }
         .project-meta { display: flex; gap: 40px; justify-content: center; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 24px; }
 
-        /* --- HERO IMAGE --- */
-        .hero-image-wrapper { width: 100%; height: 70vh; overflow: hidden; border-radius: 4px; margin-bottom: 100px; }
-        .hero-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        /* --- IMAGES --- */
+        .full-image { width: 100%; margin-bottom: 100px; border-radius: 4px; }
 
-        /* --- CONTENT LAYOUT --- */
+        /* --- CONTENT --- */
         .content-block { max-width: 700px; margin: 0 auto 100px; }
         .content-block h2 { font-size: 2rem; margin-bottom: 24px; }
         .content-block p { font-size: 1.15rem; color: #444; margin-bottom: 24px; }
-        
-        /* --- FULL WIDTH IMAGE --- */
-        .full-image { width: 100%; margin-bottom: 100px; border-radius: 4px; }
 
-        /* --- FOOTER (SAME AS MAIN) --- */
+        /* --- FOOTER --- */
         footer { background-color: #111111; color: #FFFFFF; padding: 140px 0 60px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         .footer-pre-header { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: #666666; margin-bottom: 32px; }
         .email-link { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 6.5rem); line-height: 1.1; color: #FFFFFF; display: inline-flex; gap: 20px; align-items: baseline; }
@@ -66,58 +58,14 @@ img {
         .email-link:hover .arrow-icon { transform: translate(10px, -10px); }
         .copyright { margin-top: 120px; font-size: 0.85rem; color: #444444; }
 
-        /* --- RESPONSIVE --- */
-        /* --- STRICT MOBILE FIX (Paste this at the bottom of CSS) --- */
-@media (max-width: 900px) {
-    
-    /* 1. Stop Horizontal Scroll Globally */
-    html, body {
-        overflow-x: hidden;
-        width: 100%;
-        position: relative;
-    }
-
-    /* 2. Fix the Container */
-    .container {
-        width: 100%;
-        padding: 0 20px; /* Safer padding */
-        overflow: hidden; /* Cuts off anything sticking out */
-    }
-
-    /* 3. Switch Grid to Simple Stack */
-    .work-grid {
-        display: flex; /* Better than grid for mobile */
-        flex-direction: column;
-        gap: 0; /* Remove gap */
-        margin-top: 40px;
-    }
-
-    /* 4. Force Cards to Fit */
-    .project-card { 
-        width: 100% !important; 
-        margin-bottom: 60px; 
-        margin-top: 0 !important;
-    }
-    
-    /* 5. Force Images to Contain */
-    .image-wrapper, img {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    /* 6. Fix Hero Typography */
-    .hero h1 { 
-        font-size: 2.5rem; /* Smaller font to prevent word breaking */
-        word-wrap: break-word; 
-    }
-    
-    /* 7. Other Mobile Adjustments */
-    .about-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    .hamburger { display: block; }
-    .section { padding: 60px 0; }
-    .email-link { font-size: 1.5rem; word-break: break-all; } /* Prevents email overflowing */
-}
+        /* --- MOBILE FIX --- */
+        @media (max-width: 900px) {
+            html, body { overflow-x: hidden; width: 100%; position: relative; }
+            .container { width: 100%; padding: 0 20px; overflow: hidden; }
+            .project-meta { flex-direction: column; gap: 10px; }
+            .content-block, .full-image { margin-bottom: 60px; }
+            .email-link { font-size: 1.5rem; word-break: break-all; } 
+        }
     </style>
 </head>
 <body>
@@ -139,17 +87,7 @@ img {
     </header>
 
     <div class="container">
-        <div class="hero-image-wrapper">
-            <img src="Main.png" alt="Project Hero Image">
-            <img 
-                            src="Main.png" 
-                            alt="App Dashboard: UI Design for E-Commerce firm" 
-                            loading="lazy" 
-                            decoding="async" 
-                            width="800" 
-                            height="600"
-                        >
-        </div>
+        <img src="Main.png" class="full-image" alt="Martian App Dashboard Hero" loading="lazy" decoding="async">
     </div>
 
     <section class="container">
@@ -161,15 +99,7 @@ img {
     </section>
 
     <div class="container">
-        <img src="Martian.png" class="full-image" alt="Wireframes">
-        <img 
-                            src="Martian.png" 
-                            alt="App Dashboard: UI Design for E-Commerce firm" 
-                            loading="lazy" 
-                            decoding="async" 
-                            width="800" 
-                            height="600"
-                        >
+        <img src="Martian.png" class="full-image" alt="Martian Wireframes and UI" loading="lazy" decoding="async">
     </div>
 
     <section class="container">
