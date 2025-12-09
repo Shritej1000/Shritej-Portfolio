@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 
     <style>
+
+        /* Add this near the top of your <style> block */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
         /* --- COPYING CORE STYLES FROM MAIN PAGE --- */
         :root {
             --bg-color: #F9F9FB;
@@ -60,10 +67,57 @@
         .copyright { margin-top: 120px; font-size: 0.85rem; color: #444444; }
 
         /* --- RESPONSIVE --- */
-        @media (max-width: 768px) {
-            .project-meta { flex-direction: column; gap: 10px; }
-            .hero-image-wrapper { height: 40vh; }
-        }
+        /* --- STRICT MOBILE FIX (Paste this at the bottom of CSS) --- */
+@media (max-width: 900px) {
+    
+    /* 1. Stop Horizontal Scroll Globally */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+        position: relative;
+    }
+
+    /* 2. Fix the Container */
+    .container {
+        width: 100%;
+        padding: 0 20px; /* Safer padding */
+        overflow: hidden; /* Cuts off anything sticking out */
+    }
+
+    /* 3. Switch Grid to Simple Stack */
+    .work-grid {
+        display: flex; /* Better than grid for mobile */
+        flex-direction: column;
+        gap: 0; /* Remove gap */
+        margin-top: 40px;
+    }
+
+    /* 4. Force Cards to Fit */
+    .project-card { 
+        width: 100% !important; 
+        margin-bottom: 60px; 
+        margin-top: 0 !important;
+    }
+    
+    /* 5. Force Images to Contain */
+    .image-wrapper, img {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* 6. Fix Hero Typography */
+    .hero h1 { 
+        font-size: 2.5rem; /* Smaller font to prevent word breaking */
+        word-wrap: break-word; 
+    }
+    
+    /* 7. Other Mobile Adjustments */
+    .about-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .section { padding: 60px 0; }
+    .email-link { font-size: 1.5rem; word-break: break-all; } /* Prevents email overflowing */
+}
     </style>
 </head>
 <body>
