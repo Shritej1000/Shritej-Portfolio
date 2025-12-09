@@ -37,21 +37,18 @@
         .back-link { font-size: 0.9rem; color: var(--text-secondary); }
 
         /* --- HERO --- */
-        .project-hero { padding: 60px 0 100px; text-align: center; }
+        .project-hero { padding: 60px 0 60px; text-align: center; }
         .project-hero h1 { font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 16px; }
         .project-meta { display: flex; gap: 40px; justify-content: center; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 24px; }
 
-        .hero-image-wrapper { width: 100%; height: auto; aspect-ratio: 16/9; overflow: hidden; border-radius: 4px; margin-bottom: 100px; background-color: #eee; }
-        .hero-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+        /* --- IMAGES --- */
+        .full-image { width: 100%; margin-bottom: 100px; border-radius: 4px; }
 
         /* --- CONTENT --- */
         .content-block { max-width: 700px; margin: 0 auto 100px; }
         .content-block h2 { font-size: 2rem; margin-bottom: 24px; }
         .content-block p { font-size: 1.15rem; color: #444; margin-bottom: 24px; }
         
-        /* --- IMAGES --- */
-        .full-image { width: 100%; margin-bottom: 100px; border-radius: 4px; }
-
         /* --- FOOTER --- */
         footer { background-color: #111111; color: #FFFFFF; padding: 140px 0 60px; text-align: center; display: flex; flex-direction: column; align-items: center; }
         .footer-pre-header { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: #666666; margin-bottom: 32px; }
@@ -66,7 +63,6 @@
             html, body { overflow-x: hidden; width: 100%; position: relative; }
             .container { width: 100%; padding: 0 20px; overflow: hidden; }
             .project-meta { flex-direction: column; gap: 10px; }
-            .hero-image-wrapper { margin-bottom: 60px; }
             .content-block, .full-image { margin-bottom: 60px; }
             .email-link { font-size: 1.5rem; word-break: break-all; }
         }
@@ -91,9 +87,7 @@
     </header>
 
     <div class="container">
-        <div class="hero-image-wrapper">
-            <img src="Hero-Section 3.png" alt="Hero Library Dashboard" width="1200" height="800">
-        </div>
+        <img src="Hero-Section 3.png" class="full-image" alt="Hero Library Dashboard" loading="lazy" decoding="async">
     </div>
 
     <section class="container">
