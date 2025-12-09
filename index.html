@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Shritej Patil, a UI/UX Designer specializing in clean, functional digital experiences.">
+    <title>Shritej Patil | UI/UX Designer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <style>
+        /* --- 1. DESIGN SYSTEM --- */
+        :root {
+            --bg-color: #F9F9FB;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --accent-color: #2F54EB;
+            --container-width: 1200px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; overflow-x: hidden; }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; color: var(--text-primary); }
+
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        a:hover { color: var(--accent-color); }
+
+        /* --- 2. STATIC SPLASH SCREEN --- */
+        #loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: #111111; /* Static Black */
+            color: #FFFFFF; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+            cursor: pointer;
+        }
+        #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        
+        .loader-title { font-family: 'Playfair Display', serif; font-size: 3rem; margin-bottom: 20px; letter-spacing: -0.02em; }
+        .enter-text { font-family: 'Inter', sans-serif; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0; animation: fadeIn 2s ease-out forwards 0.5s; }
+
+        @keyframes fadeIn { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 0.7; transform: translateY(0); } }
+
+        /* --- 3. PROGRESS BAR --- */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 103; }
+        .progress-bar { height: 3px; background: var(--accent-color); width: 0%; transition: width 0.1s; }
+
+        /* --- 4. NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 24px 0;
+            background: rgba(249, 249, 251, 0.95); backdrop-filter: blur(10px);
+            z-index: 100; transition: padding 0.3s ease;
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 600; font-size: 1.2rem; letter-spacing: -0.02em; z-index: 102; position: relative;}
+        .nav-links { display: flex; gap: 40px; font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* Hamburger */
+        .hamburger { display: none; cursor: pointer; z-index: 102; }
+        .bar { display: block; width: 25px; height: 2px; margin: 5px auto; transition: all 0.3s ease-in-out; background-color: var(--text-primary); }
+        
+        .mobile-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: var(--bg-color); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; gap: 40px;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 101;
+        }
+        .mobile-menu.active { opacity: 1; pointer-events: all; }
+        .mobile-menu a { font-size: 2rem; font-family: 'Playfair Display', serif; }
+        .hamburger.active .bar:nth-child(2) { opacity: 0; }
+        .hamburger.active .bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active .bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* --- 5. HERO SECTION (With 3D Canvas) --- */
+        .hero { height: 90vh; display: flex; align-items: center; position: relative; }
+        
+        #canvas-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; /* Behind Text */
+            opacity: 0.6; pointer-events: none; /* Let clicks pass through */
+        }
+
+        .hero-content { position: relative; z-index: 2; } /* Text above 3D */
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 5.5rem); line-height: 1.1; margin-bottom: 24px; max-width: 900px; }
+        .hero p { font-size: 1.15rem; color: var(--text-secondary); max-width: 500px; }
+
+        /* --- 6. WORK & SECTIONS --- */
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        .section { padding: 120px 0; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .section.visible { opacity: 1; transform: translateY(0); }
+
+        .work-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 40px; margin-top: 60px; }
+        .project-card { grid-column: span 6; margin-bottom: 80px; display: block; }
+        .project-card:nth-child(even) { margin-top: 80px; }
+
+        .image-wrapper { width: 100%; aspect-ratio: 4/3; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin-bottom: 24px; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; filter: grayscale(100%); }
+        .project-card:hover .image-wrapper img { transform: scale(1.05); filter: grayscale(0%); }
+        .project-info h3 { font-size: 1.75rem; margin-bottom: 8px; }
+        .project-info span { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); }
+
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        .about-text h2 { font-size: 2.5rem; margin-bottom: 32px; }
+        .about-text p { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 24px; }
+
+        /* --- 7. FOOTER --- */
+        footer { background-color: #111111; color: #FFFFFF; padding: 100px 0 60px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .footer-pre-header { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: #666666; margin-bottom: 32px; }
+        .email-link { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 8vw, 6.5rem); line-height: 1.1; color: #FFFFFF; display: inline-flex; align-items: baseline; gap: 10px; }
+        .arrow-icon { font-size: 0.5em; transition: transform 0.4s ease; }
+        .email-link:hover .arrow-icon { transform: translate(10px, -10px); }
+        .copyright { margin-top: 80px; font-size: 0.85rem; color: #444444; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .project-card { grid-column: span 12; margin-bottom: 60px; margin-top: 0 !important; }
+            .image-wrapper img { filter: grayscale(0%); }
+            .about-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .section { padding: 80px 0; }
+            .hero h1 { font-size: 3rem; }
+            .email-link { flex-direction: column; align-items: center; gap: 0; }
+            .arrow-icon { display: none; }
+        }
+
+        .resume-link {
+    display: inline-block;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--text-primary);
+    padding-bottom: 2px;
+    margin-top: 16px;
+    transition: all 0.3s ease;
+}
+
+.resume-link:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: translateY(-2px); /* Subtle lift effect */
+}
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-title">Shritej Patil.</div>
+        <div class="enter-text">[ Click to Enter ]</div>
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="myBar"></div>
+    </div>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">Shritej Patil.</a>
+            <div class="nav-links">
+                <a href="#work">Work</a>
+                <a href="#about">About</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <a href="#work" onclick="toggleMenu()">Work</a>
+        <a href="#about" onclick="toggleMenu()">About</a>
+        <a href="#contact" onclick="toggleMenu()">Contact</a>
+    </div>
+
+    <header class="section hero visible">
+        <div id="canvas-container"></div> 
+
+        <div class="container hero-content">
+            <h1>I design digital clarity <br> for complex systems.</h1>
+            <p>UI/UX Designer based in Kolhapur. Specializing in data visualization, and design systems.</p>
+        </div>
+    </header>
+
+    <section id="work" class="section">
+        <div class="container">
+            <div class="work-grid">
+                
+                <a href="the-nine.html" class="project-card">
+                    <div class="image-wrapper">
+                        <img src="TheNine.png" alt="The Nine UI Design" loading="lazy" decoding="async">
+                    </div>
+                    <div class="project-info">
+                        <h3>The Nine</h3>
+                        <span>UI/UX Design</span>
+                    </div>
+                </a>
+
+                <a href="fuji.html" class="project-card">
+                    <div class="image-wrapper">
+                        <img src="Fuji.png" alt="Fuji Architecture App" loading="lazy" decoding="async">
+                    </div>
+                    <div class="project-info">
+                        <h3>Fuji - Architecture</h3>
+                        <span>UI/UX Design</span>
+                    </div>
+                </a>
+
+                <a href="martian.html" class="project-card">
+                    <div class="image-wrapper">
+                        <img src="Main.png" alt="Martian Ecommerce" loading="lazy" decoding="async">
+                    </div>
+                    <div class="project-info">
+                        <h3>Martian</h3>
+                        <span>E-Commerce / Branding</span>
+                    </div>
+                </a>
+
+                <a href="hero-mockups.html" class="project-card">
+                    <div class="image-wrapper">
+                        <img src="Hero-Section 3.png" alt="Hero Section Mockups" loading="lazy" decoding="async">
+                    </div>
+                    <div class="project-info">
+                        <h3>Hero Mockups</h3>
+                        <span>Design System</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                     <img src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=800&auto=format&fit=crop" style="width:100%; filter:grayscale(100%); border-radius:4px;" alt="Portrait" loading="lazy">
+                </div>
+                <div class="about-text">
+                    <h2>More than just pixels.</h2>
+                    <p>I believe that good design is invisible. With a background in Cognitive Science, I approach design problems with a focus on human behavior and systematic thinking.</p>
+                    <p>When I'm not in Figma, I'm likely shooting film photography or brewing the perfect pour-over coffee.</p>
+                    <br>
+                    <a href="resume.pdf" target="_blank" download="Shritej_Patil_Resume" class="resume-link">
+                        Read my Resume ↗
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="section visible">
+        <div class="container">
+            <p class="footer-pre-header">Have an idea?</p>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shritejpatil2806@gmail.com" target="_blank" class="email-link">
+                Shritej Patil
+                <span class="arrow-icon">↗</span>
+            </a>
+            <div class="copyright">
+                &copy; 2025 Shritej Patil. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 1. SPLASH SCREEN (Click to Enter)
+        const loader = document.getElementById("loader");
+        loader.addEventListener("click", function() {
+            loader.classList.add("hidden");
+            document.body.style.overflow = "auto";
+        });
+        document.body.style.overflow = "hidden"; // Lock scroll initially
+
+        // 2. SCROLL PROGRESS
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            document.getElementById("myBar").style.width = scrolled + "%";
+        };
+
+        // 3. MOBILE MENU
+        const hamburger = document.querySelector(".hamburger");
+        const mobileMenu = document.querySelector(".mobile-menu");
+        function toggleMenu() {
+            hamburger.classList.toggle("active");
+            mobileMenu.classList.toggle("active");
+        }
+        hamburger.addEventListener("click", toggleMenu);
+
+        // 4. SCROLL FADE-IN
+        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.section').forEach(section => { observer.observe(section); });
+
+        // 5. HERO ANIMATION (THREE.JS)
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+            
+            // Scene & Camera
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            
+            // Renderer (Alpha true = Transparent background)
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio); // Sharp on Retina
+            container.appendChild(renderer.domElement);
+
+            // Geometry (Icosahedron / Techy Sphere)
+            const geometry = new THREE.IcosahedronGeometry(8, 2); 
+            const material = new THREE.MeshBasicMaterial({ 
+                color: 0x2F54EB, // Your Blue Accent
+                wireframe: true,
+                transparent: true,
+                opacity: 0.2 // Very subtle
+            });
+            
+            const sphere = new THREE.Mesh(geometry, material);
+            scene.add(sphere);
+
+            camera.position.z = 20;
+
+            // Mouse Interaction
+            let mouseX = 0;
+            let mouseY = 0;
+            document.addEventListener('mousemove', (event) => {
+                mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+                mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Slow constant rotation
+                sphere.rotation.x += 0.001;
+                sphere.rotation.y += 0.001;
+
+                // Mouse interaction
+                sphere.rotation.x += mouseY * 0.02;
+                sphere.rotation.y += mouseX * 0.02;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+        
+        // Load Three.js only after page loads
+        window.addEventListener('load', initThreeJS);
+    </script>
+</body>
+</html>

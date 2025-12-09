@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fuji | Shritej Patil</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- COPYING CORE STYLES FROM MAIN PAGE --- */
+        :root {
+            --bg-color: #F9F9FB;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --accent-color: #2F54EB;
+            --container-width: 1200px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: 'Inter', sans-serif; line-height: 1.8; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--text-primary); }
+        a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
+        a:hover { color: var(--accent-color); }
+        
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+        
+        /* --- NAV (SIMPLIFIED FOR PROJECT PAGES) --- */
+        nav { padding: 32px 0; border-bottom: 1px solid #E5E5E5; margin-bottom: 60px; }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-weight: 600; font-size: 1.1rem; }
+        .back-link { font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* --- PROJECT HERO --- */
+        .project-hero { padding: 60px 0 100px; text-align: center; }
+        .project-hero h1 { font-size: clamp(3rem, 5vw, 4.5rem); margin-bottom: 16px; }
+        .project-meta { display: flex; gap: 40px; justify-content: center; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 24px; }
+
+        /* --- HERO IMAGE --- */
+        .hero-image-wrapper { width: 100%; height: 70vh; overflow: hidden; border-radius: 4px; margin-bottom: 100px; }
+        .hero-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* --- CONTENT LAYOUT --- */
+        .content-block { max-width: 700px; margin: 0 auto 100px; }
+        .content-block h2 { font-size: 2rem; margin-bottom: 24px; }
+        .content-block p { font-size: 1.15rem; color: #444; margin-bottom: 24px; }
+        
+        /* --- FULL WIDTH IMAGE --- */
+        .full-image { width: 100%; margin-bottom: 100px; border-radius: 4px; }
+
+        /* --- FOOTER (SAME AS MAIN) --- */
+        footer { background-color: #111111; color: #FFFFFF; padding: 140px 0 60px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+        .footer-pre-header { font-size: 1rem; text-transform: uppercase; letter-spacing: 0.15em; color: #666666; margin-bottom: 32px; }
+        .email-link { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 6.5rem); line-height: 1.1; color: #FFFFFF; display: inline-flex; gap: 20px; align-items: baseline; }
+        .email-link:hover { opacity: 0.8; }
+        .arrow-icon { font-size: 0.5em; transition: transform 0.4s ease; }
+        .email-link:hover .arrow-icon { transform: translate(10px, -10px); }
+        .copyright { margin-top: 120px; font-size: 0.85rem; color: #444444; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .project-meta { flex-direction: column; gap: 10px; }
+            .hero-image-wrapper { height: 40vh; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="index.html" class="logo">Shritej Patil.</a>
+            <a href="index.html" class="back-link">← Back to Work</a>
+        </div>
+    </nav>
+
+    <header class="container project-hero">
+        <h1>Fuji</h1> 
+        <div class="project-meta">
+            <span>UI/UX Design</span>
+            <span>2025</span>
+            <span>Figma</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero-image-wrapper">
+            <img src="Fuji.png" alt="Project Hero Image">
+            <img 
+                            src="Fuji.png" 
+                            alt="App Dashboard: UI Design for Architecture firm" 
+                            loading="lazy" 
+                            decoding="async" 
+                            width="800" 
+                            height="600"
+                        >
+        </div>
+    </div>
+
+    <section class="container">
+        <div class="content-block">
+            <h2>The Challenge</h2>
+            <p>"The Fuji required a digital presence that reflected their minimalist architectural philosophy. The existing site was cluttered and difficult to navigate on mobile devices."</p>
+            <p>My goal was to strip away the non-essential elements and focus purely on visual storytelling.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <img src="projects.png" class="full-image" alt="Wireframes">
+        <img 
+                            src="projects.png" 
+                            alt="App Dashboard: UI Design for Architecture firm" 
+                            loading="lazy" 
+                            decoding="async" 
+                            width="800" 
+                            height="600"
+                        >
+    </div>
+
+    <section class="container">
+        <div class="content-block">
+            <h2>The Solution</h2>
+            <p>I developed a design system based on a 12-column grid. Typography was kept stark and monochromatic to ensure the photography took center stage.</p>
+            <p>The result was a 40% increase in user session duration.</p>
+            <p>Architecture that lasts
+            We see a world where buildings are valued for their
+            lasting impact, and craftsmanship and materials
+            are respected.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p class="footer-pre-header">Next Project?</p>
+            <a href="mailto:shritejpatil2806@gmail.com" class="email-link">
+                Let's Talk
+                <span class="arrow-icon">↗</span>
+            </a>
+            <div class="copyright">
+                &copy; 2025 Shritej Patil. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
