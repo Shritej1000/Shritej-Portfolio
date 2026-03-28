@@ -321,6 +321,8 @@
         }
 
         @media (max-width: 900px) {
+            html, body { overflow-x: hidden; width: 100%; position: relative; -webkit-overflow-scrolling: touch; }
+            .container { width: 100%; padding: 0 20px; overflow: hidden; }
             .work-grid {
                 display: flex;
                 flex-direction: column;
@@ -344,6 +346,11 @@
 
             .hamburger {
                 display: block;
+            }
+
+            .email-link {
+                font-size: 1.5rem;
+                word-break: break-all;
             }
         }
 
@@ -494,6 +501,7 @@
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             smoothWheel: true,
+            smoothTouch: false
         });
 
         function raf(time) {

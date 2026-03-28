@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,400&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="site-icon.png">
 
@@ -115,9 +115,12 @@
 
         .loader-title {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            margin-bottom: 20px;
-            letter-spacing: -0.02em;
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 0px;
+            letter-spacing: 0.05em;
+            color: #FFFFFF !important;
+            text-transform: uppercase;
         }
 
         .enter-text {
@@ -126,12 +129,16 @@
             text-transform: uppercase;
             letter-spacing: 0.2em;
             opacity: 0;
-            animation: fadeIn 2s ease-out forwards 0.5s;
+            color: #FFFFFF;
+            margin-top: 20px;
         }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 0.7; transform: translateY(0); }
+        .loader-line {
+            width: 100px;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.3);
+            margin: 20px auto;
+            transform: scaleX(0);
         }
 
         /* --- 3. PROGRESS BAR --- */
@@ -499,6 +506,7 @@
                 overflow-x: hidden;
                 width: 100%;
                 position: relative;
+                -webkit-overflow-scrolling: touch;
             }
 
             .container {
@@ -588,9 +596,9 @@
     <div id="loader">
         <div class="loader-text-wrapper">
             <h1 class="loader-title" id="loader-name">SHRITEJ PATIL.</h1>
-            <div class="enter-text">[ Click to Enter ]</div>
+            <div class="loader-line" id="loader-line"></div>
+            <div class="enter-text" id="loader-status">CREATING DIGITAL EXPERIENCE</div>
         </div>
-        <div id="loader-canvas"></div>
     </div>
 
     <div class="progress-container">
@@ -747,131 +755,41 @@
     </footer>
 
     <script>
-        // --- 1. ULTRA-CREATIVE INTERACTIVE LOADER --- //
-        let loaderAnimationId;
-        function initLoaderSphere() {
-            const container = document.getElementById('loader-canvas');
-            if (!container) return;
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 40;
-            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            container.appendChild(renderer.domElement);
-
-            // Particle Geometry
-            const geometry = new THREE.BufferGeometry();
-            const count = 6000;
-            const positions = new Float32Array(count * 3);
-            const originalPositions = new Float32Array(count * 3);
-            const randomOffsets = new Float32Array(count);
-            
-            for (let i = 0; i < count; i++) {
-                const i3 = i * 3;
-                const phi = Math.acos(-1 + (2 * i) / count);
-                const theta = Math.sqrt(count * Math.PI) * phi;
-                const r = 12 + Math.random() * 2.5; // Wider range for more organic feel
-                
-                positions[i3] = r * Math.cos(theta) * Math.sin(phi);
-                positions[i3 + 1] = r * Math.sin(theta) * Math.sin(phi);
-                positions[i3 + 2] = r * Math.cos(phi);
-                
-                originalPositions[i3] = positions[i3];
-                originalPositions[i3+1] = positions[i3+1];
-                originalPositions[i3+2] = positions[i3+2];
-                randomOffsets[i] = Math.random();
-            }
-            
-            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-            const material = new THREE.PointsMaterial({ 
-                color: 0xFFFFFF, 
-                size: 0.05, 
-                transparent: true, 
-                opacity: 0.8, 
-                blending: THREE.AdditiveBlending,
-                sizeAttenuation: true
-            });
-            const points = new THREE.Points(geometry, material);
-            scene.add(points);
-
-            // Mouse tracking for interaction
-            let mouseX = 0, mouseY = 0;
-            let targetMouseX = 0, targetMouseY = 0;
-            window.addEventListener('mousemove', (e) => {
-                targetMouseX = (e.clientX - window.innerWidth / 2) * 0.05;
-                targetMouseY = (e.clientY - window.innerHeight / 2) * 0.05;
-            });
-
-            let time = 0;
-            function animate() {
-                loaderAnimationId = requestAnimationFrame(animate);
-                time += 0.01;
-                
-                // Smoothen mouse tracking
-                mouseX += (targetMouseX - mouseX) * 0.05;
-                mouseY += (targetMouseY - mouseY) * 0.05;
-                
-                points.rotation.y += 0.003;
-                points.rotation.x += 0.001;
-                
-                const pos = geometry.attributes.position.array;
-                for (let i = 0; i < count; i++) {
-                    const i3 = i * 3;
-                    const freq = 0.5 + randomOffsets[i];
-                    // Dynamic breathe effect
-                    const amplitude = Math.sin(time * freq) * 0.5;
-                    
-                    // Spring-like physics target
-                    const tx = originalPositions[i3] * (1 + amplitude * 0.05) + mouseX * 0.2 * (randomOffsets[i]);
-                    const ty = originalPositions[i3+1] * (1 + amplitude * 0.05) - mouseY * 0.2 * (randomOffsets[i]);
-                    const tz = originalPositions[i3+2] * (1 + amplitude * 0.05);
-
-                    pos[i3] += (tx - pos[i3]) * 0.1;
-                    pos[i3+1] += (ty - pos[i3+1]) * 0.1;
-                    pos[i3+2] += (tz - pos[i3+2]) * 0.1;
-                }
-                geometry.attributes.position.needsUpdate = true;
-                renderer.render(scene, camera);
-            }
-            animate();
-
-            // Kinetic Type Reveal with specific colors
+        // --- 1. PROFESSIONAL AUTOMATIC LOADER --- //
+        function startLoader() {
             const nameElement = document.getElementById('loader-name');
-            if (nameElement) {
-                const colors = { "SHRITEJ": "#FF4040", "PATIL.": "#F9F9FB" };
-                const wordsArr = nameElement.innerText.split(' ');
-                
-                nameElement.innerHTML = wordsArr.map(word => {
-                    const color = colors[word] || "#FFFFFF";
-                    return `<span class="word" style="color: ${color}; display: inline-block;">` + 
-                           word.split('').map(char => `<span class="char" style="display:inline-block">${char}</span>`).join('') + 
-                           `</span>`;
-                }).join('&nbsp;');
+            const statusElement = document.getElementById('loader-status');
+            const lineElement = document.getElementById('loader-line');
+            const loader = document.getElementById("loader");
 
-                gsap.from(".char", {
-                    opacity: 0,
-                    y: 60,
-                    rotationX: -90,
-                    stagger: 0.04,
-                    duration: 1.2,
-                    ease: "power4.out",
-                    delay: 0.5
-                });
-            }
+            if (!nameElement) return;
 
-            window.stopLoader = function () {
-                cancelAnimationFrame(loaderAnimationId);
-                // Explosive exit interaction
-                gsap.to(points.scale, { x: 5, y: 5, z: 5, duration: 1, ease: "power4.in" });
-                gsap.to(material, { opacity: 0, duration: 0.8 });
-                setTimeout(() => { container.innerHTML = ''; }, 1000);
-            };
-            
-            window.addEventListener('resize', () => {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
+            const wordsArr = nameElement.innerText.split(' ');
+            nameElement.innerHTML = wordsArr.map(word => {
+                return `<span class="word" style="display: inline-block;">` +
+                    word.split('').map(char => `<span class="char" style="display:inline-block">${char}</span>`).join('') +
+                    `</span>`;
+            }).join('&nbsp;');
+
+            const tl = gsap.timeline();
+
+            tl.fromTo(".char",
+                { opacity: 0, y: 30, skewX: 10 },
+                { opacity: 1, y: 0, skewX: 0, duration: 1, stagger: 0.03, ease: "power4.out", delay: 0.4 }
+            )
+            .to(lineElement, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, "-=0.2")
+            .fromTo(statusElement, { opacity: 0, y: 10 }, { opacity: 0.5, y: 0, duration: 0.8 }, "-=0.5")
+            .to(loader, { 
+                opacity: 0, 
+                duration: 0.8, 
+                ease: "power2.inOut", 
+                delay: 1,
+                onComplete: () => {
+                    loader.style.display = 'none';
+                    document.body.style.overflow = "auto";
+                    animateHeroGSAP();
+                    initHeroAnimation();
+                }
             });
         }
 
@@ -884,20 +802,9 @@
                 initHeroAnimation();
             });
         } else {
-            initLoaderSphere();
             document.body.style.overflow = "hidden";
-            loader.addEventListener("click", function () {
-                gsap.to(loader, {
-                    opacity: 0, duration: 0.8, onComplete: () => {
-                        loader.style.display = 'none';
-                        document.body.style.overflow = "auto";
-                        sessionStorage.setItem("siteVisited", "true");
-                        if (window.stopLoader) window.stopLoader();
-                        animateHeroGSAP();
-                        initHeroAnimation();
-                    }
-                });
-            });
+            sessionStorage.setItem("siteVisited", "true");
+            window.addEventListener('load', startLoader);
         }
 
         // --- GSAP HERO ANIMATION --- //
@@ -1071,6 +978,10 @@
             easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
             orientation: 'vertical',
             smoothWheel: true,
+            touchMultiplier: 2,
+            infinite: false,
+            // Disable on mobile to prevent "glitchy" jitter
+            smoothTouch: false
         });
 
         function raf(time) {
