@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading...</title>
+    <!-- SEO Best Practices -->
+    <meta name="description" content="Shritej Patil Portfolio Preloader">
+    <style>
+        :root {
+            --bg-color: #FF4040; /* Vibrant Red from Image */
+            --loader-color: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .loader-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .circle-loader {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 6px;
+            column-gap: 6px;
+            animation: circleRotate 10s linear infinite;
+        }
+
+        .circle-loader .circle {
+            background-color: var(--loader-color);
+            float: left;
+            animation: circleScaleDelay 1.3s infinite ease-in-out;
+            border-radius: 50%;
+        }
+
+        .circle-loader .circle1 { animation-delay: 0.2s; }
+        .circle-loader .circle2 { animation-delay: 0.3s; }
+        .circle-loader .circle3 { animation-delay: 0.4s; }
+        .circle-loader .circle4 { animation-delay: 0.1s; }
+        .circle-loader .circle5 { animation-delay: 0.2s; }
+        .circle-loader .circle6 { animation-delay: 0.3s; }
+        .circle-loader .circle7 { animation-delay: 0s; }
+        .circle-loader .circle8 { animation-delay: 0.1s; }
+        .circle-loader .circle9 { animation-delay: 0.2s; }
+
+        @keyframes circleScaleDelay {
+            0%, 70%, 100% { transform: scale3D(1, 1, 1); }
+            35% { transform: scale3D(0, 0, 1); }
+        }
+
+        @keyframes circleRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .circle-loader {
+                width: 60px;
+                height: 60px;
+                row-gap: 4px;
+                column-gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader-wrapper">
+        <div id="loader-content" class="circle-loader">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle4"></div>
+            <div class="circle circle5"></div>
+            <div class="circle circle6"></div>
+            <div class="circle circle7"></div>
+            <div class="circle circle8"></div>
+            <div class="circle circle9"></div>
+        </div>
+    </div>
+
+    <script>
+        // Redirect after 3 seconds
+        setTimeout(function() {
+            // Mark as visited so home.html skips its internal loader
+            sessionStorage.setItem("siteVisited", "true");
+            
+            // Elegant fade out before redirect
+            document.body.style.transition = 'opacity 0.5s ease';
+            document.body.style.opacity = '0';
+            setTimeout(function() {
+                window.location.href = 'home.html';
+            }, 500);
+        }, 2500); // Start fade at 2.5s to finish by 3s
+    </script>
+</body>
+</html>

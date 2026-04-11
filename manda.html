@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="site-icon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -27,7 +27,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: var(--bg-color); color: var(--text-primary); font-family: 'Inter', sans-serif; line-height: 1.8; overscroll-behavior: none; }
+        body { background-color: var(--bg-color); color: var(--text-primary); font-family: 'Manrope', sans-serif; line-height: 1.8; overscroll-behavior: none; }
         .full-image, .logo, .nav-content, .project-hero, .content-block { will-change: transform, opacity; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--text-primary); }
         a { text-decoration: none; color: inherit; transition: color 0.3s ease; }
@@ -71,13 +71,55 @@
             .content-block, .full-image { margin-bottom: 60px; }
             .email-link { font-size: 1.5rem; word-break: break-all; } 
         }
+
+        /* --- CHARACTER REVEAL BUTTON ANIMATION --- */
+        .reveal-btn-inner {
+            position: relative;
+            display: inline-flex;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        .reveal-btn-inner .normal-text, 
+        .reveal-btn-inner .hover-text {
+            display: flex;
+        }
+
+        .reveal-btn-inner .hover-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .reveal-btn-inner span span {
+            transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+            display: inline-block;
+        }
+
+        .reveal-btn-inner .hover-text span {
+            transform: translateY(100%);
+        }
+
+        /* Group hover triggers */
+        .back-link:hover .reveal-btn-inner .normal-text span,
+        .logo:hover .reveal-btn-inner .normal-text span {
+            transform: translateY(-100%);
+        }
+
+        .back-link:hover .reveal-btn-inner .hover-text span,
+        .logo:hover .reveal-btn-inner .hover-text span {
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="container nav-content">
-            <a href="home.html" class="logo"><img src="logo.png" alt="Shritej Patil" style="height: 42px;"></a>
+            <a href="home.html" class="logo"><img src="logo.png" alt="Shritej Patil" style="height: 72px;"></a>
             <a href="work.html" class="back-link">← Back to Work</a>
         </div>
     </nav>
@@ -143,6 +185,40 @@
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
+
+        // --- CHARACTER REVEAL BUTTON ANIMATION --- //
+        document.querySelectorAll('.back-link').forEach(btn => {
+            // Skip if it contains images
+            if (btn.querySelector('img')) return;
+            
+            const text = btn.textContent.trim().replace(/\s+/g, ' ');
+            btn.innerHTML = '';
+            
+            const innerWrapper = document.createElement('span');
+            innerWrapper.className = 'reveal-btn-inner';
+            
+            const normalSpan = document.createElement('span');
+            normalSpan.className = 'normal-text';
+            
+            const hoverSpan = document.createElement('span');
+            hoverSpan.className = 'hover-text';
+            
+            text.split('').forEach((char, i) => {
+                const charNormal = document.createElement('span');
+                charNormal.textContent = char === ' ' ? '\u00A0' : char;
+                charNormal.style.transitionDelay = `${i * 0.02}s`;
+                normalSpan.appendChild(charNormal);
+
+                const charHover = document.createElement('span');
+                charHover.textContent = char === ' ' ? '\u00A0' : char;
+                charHover.style.transitionDelay = `${i * 0.02}s`;
+                hoverSpan.appendChild(charHover);
+            });
+            
+            innerWrapper.appendChild(normalSpan);
+            innerWrapper.appendChild(hoverSpan);
+            btn.appendChild(innerWrapper);
+        });
     </script>
 </body>
 </html>

@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,300;0,400;0,600;1,400&display=swap"
         rel="stylesheet">
     <link rel="icon" type="image/png" href="site-icon.png">
 
@@ -45,15 +45,19 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Manrope', sans-serif;
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            overscroll-behavior: none; /* Recommended for smooth scroll */
+            overscroll-behavior: none;
+            /* Recommended for smooth scroll */
         }
 
         /* PERFORMANCE OPTIMIZATIONS */
-        .section, .project-card, .logo, .nav-links a {
+        .section,
+        .project-card,
+        .logo,
+        .nav-links a {
             will-change: transform, opacity;
         }
 
@@ -82,19 +86,19 @@
             color: var(--accent-color);
         }
 
-        /* --- 2. REACTIVE SPLASH SCREEN --- */
+        /* --- 2. PRELOADER --- */
         #loader {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #050505;
-            color: #FFFFFF;
+            background-color: var(--accent-color);
             z-index: 9999;
-            cursor: pointer;
-            overflow: hidden;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         #loader.hidden {
@@ -103,42 +107,79 @@
             pointer-events: none;
         }
 
-        .loader-text-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            text-align: center;
-            pointer-events: none;
+        .circle-loader {
+            width: 80px;
+            height: 80px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            row-gap: 6px;
+            column-gap: 6px;
+            animation: circleRotate 10s linear infinite;
         }
 
-        .loader-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 3.5rem;
-            font-weight: 300;
-            margin-bottom: 0px;
-            letter-spacing: 0.05em;
-            color: #FFFFFF !important;
-            text-transform: uppercase;
+        .circle-loader .circle {
+            background-color: #FFFFFF;
+            animation: circleScaleDelay 1.3s infinite ease-in-out;
+            border-radius: 50%;
         }
 
-        .enter-text {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            opacity: 0;
-            color: #FFFFFF;
-            margin-top: 20px;
+        .circle-loader .circle1 {
+            animation-delay: 0.2s;
         }
 
-        .loader-line {
-            width: 100px;
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.3);
-            margin: 20px auto;
-            transform: scaleX(0);
+        .circle-loader .circle2 {
+            animation-delay: 0.3s;
+        }
+
+        .circle-loader .circle3 {
+            animation-delay: 0.4s;
+        }
+
+        .circle-loader .circle4 {
+            animation-delay: 0.1s;
+        }
+
+        .circle-loader .circle5 {
+            animation-delay: 0.2s;
+        }
+
+        .circle-loader .circle6 {
+            animation-delay: 0.3s;
+        }
+
+        .circle-loader .circle7 {
+            animation-delay: 0s;
+        }
+
+        .circle-loader .circle8 {
+            animation-delay: 0.1s;
+        }
+
+        .circle-loader .circle9 {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes circleScaleDelay {
+
+            0%,
+            70%,
+            100% {
+                transform: scale3D(1, 1, 1);
+            }
+
+            35% {
+                transform: scale3D(0, 0, 1);
+            }
+        }
+
+        @keyframes circleRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         /* --- 3. PROGRESS BAR --- */
@@ -588,16 +629,68 @@
             color: #fff !important;
             transform: translateY(-2px);
         }
+
+        /* --- CHARACTER REVEAL BUTTON ANIMATION --- */
+        .reveal-btn-inner {
+            position: relative;
+            display: inline-flex;
+            overflow: hidden;
+            vertical-align: top;
+        }
+
+        .reveal-btn-inner .normal-text,
+        .reveal-btn-inner .hover-text {
+            display: flex;
+        }
+
+        .reveal-btn-inner .hover-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .reveal-btn-inner span span {
+            transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+            display: inline-block;
+        }
+
+        .reveal-btn-inner .hover-text span {
+            transform: translateY(100%);
+        }
+
+        /* Group hover triggers */
+        .flowiee-btn:hover .reveal-btn-inner .normal-text span,
+        .resume-link:hover .reveal-btn-inner .normal-text span,
+        .nav-links a:hover .reveal-btn-inner .normal-text span,
+        .logo:hover .reveal-btn-inner .normal-text span {
+            transform: translateY(-100%);
+        }
+
+        .flowiee-btn:hover .reveal-btn-inner .hover-text span,
+        .resume-link:hover .reveal-btn-inner .hover-text span,
+        .nav-links a:hover .reveal-btn-inner .hover-text span,
+        .logo:hover .reveal-btn-inner .hover-text span {
+            transform: translateY(0);
+        }
     </style>
 </head>
 
 <body>
 
     <div id="loader">
-        <div class="loader-text-wrapper">
-            <h1 class="loader-title" id="loader-name">SHRITEJ PATIL.</h1>
-            <div class="loader-line" id="loader-line"></div>
-            <div class="enter-text" id="loader-status">CREATING DIGITAL EXPERIENCE</div>
+        <div class="circle-loader">
+            <div class="circle circle1"></div>
+            <div class="circle circle2"></div>
+            <div class="circle circle3"></div>
+            <div class="circle circle4"></div>
+            <div class="circle circle5"></div>
+            <div class="circle circle6"></div>
+            <div class="circle circle7"></div>
+            <div class="circle circle8"></div>
+            <div class="circle circle9"></div>
         </div>
     </div>
 
@@ -607,7 +700,7 @@
 
     <nav>
         <div class="container nav-content">
-            <a href="home.html" class="logo"><img src="logo.png" alt="Shritej Patil" style="height: 42px;"></a>
+            <a href="home.html" class="logo"><img src="logo.png" alt="Shritej Patil" style="height: 72px;"></a>
             <div class="nav-links" style="align-items: center;">
                 <a href="work.html">Work</a>
                 <a href="#process">Process</a>
@@ -755,42 +848,22 @@
     </footer>
 
     <script>
-        // --- 1. PROFESSIONAL AUTOMATIC LOADER --- //
+        // --- 1. INTEGRATED RED PRELOADER LOGIC --- //
         function startLoader() {
-            const nameElement = document.getElementById('loader-name');
-            const statusElement = document.getElementById('loader-status');
-            const lineElement = document.getElementById('loader-line');
             const loader = document.getElementById("loader");
 
-            if (!nameElement) return;
+            // Wait 2.5s before starting fade out (0.5s fade to reach 3s total)
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                document.body.style.overflow = "auto";
 
-            const wordsArr = nameElement.innerText.split(' ');
-            nameElement.innerHTML = wordsArr.map(word => {
-                return `<span class="word" style="display: inline-block;">` +
-                    word.split('').map(char => `<span class="char" style="display:inline-block">${char}</span>`).join('') +
-                    `</span>`;
-            }).join('&nbsp;');
-
-            const tl = gsap.timeline();
-
-            tl.fromTo(".char",
-                { opacity: 0, y: 30, skewX: 10 },
-                { opacity: 1, y: 0, skewX: 0, duration: 1, stagger: 0.03, ease: "power4.out", delay: 0.4 }
-            )
-            .to(lineElement, { scaleX: 1, duration: 0.8, ease: "power2.inOut" }, "-=0.2")
-            .fromTo(statusElement, { opacity: 0, y: 10 }, { opacity: 0.5, y: 0, duration: 0.8 }, "-=0.5")
-            .to(loader, { 
-                opacity: 0, 
-                duration: 0.8, 
-                ease: "power2.inOut", 
-                delay: 1,
-                onComplete: () => {
+                // Trigger page entrance animations
+                setTimeout(() => {
                     loader.style.display = 'none';
-                    document.body.style.overflow = "auto";
                     animateHeroGSAP();
                     initHeroAnimation();
-                }
-            });
+                }, 800); // Wait for transition to finish
+            }, 2500);
         }
 
         const loader = document.getElementById("loader");
@@ -923,7 +996,7 @@
                 shader.vertexShader = `
                     uniform float uTime;
                 ` + shader.vertexShader;
-                
+
                 shader.vertexShader = shader.vertexShader.replace(
                     '#include <begin_vertex>',
                     `
@@ -931,7 +1004,7 @@
                     vec3 transformed = vec3(position.x, position.y, z);
                     `
                 );
-                
+
                 // Store uniform reference to update it
                 material.userData.shader = shader;
             };
@@ -939,7 +1012,7 @@
             function animate() {
                 requestAnimationFrame(animate);
                 time += 0.005;
-                
+
                 if (material.userData.shader) {
                     material.userData.shader.uniforms.uTime.value = time;
                 }
@@ -993,7 +1066,7 @@
         // Integrate Lenis with ScrollTrigger and Progress Bar
         lenis.on('scroll', (e) => {
             ScrollTrigger.update();
-            
+
             // Progress Bar update
             let winScroll = window.scrollY;
             let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -1007,6 +1080,40 @@
             lenis.raf(time * 1000);
         });
         gsap.ticker.lagSmoothing(0);
+
+        // --- 5. CHARACTER REVEAL BUTTON ANIMATION --- //
+        document.querySelectorAll('.flowiee-btn, .resume-link, .nav-links a:not(.flowiee-btn)').forEach(btn => {
+            // Skip if the button contains images (like the logo)
+            if (btn.querySelector('img')) return;
+
+            const text = btn.textContent.trim().replace(/\s+/g, ' ');
+            btn.innerHTML = '';
+
+            const innerWrapper = document.createElement('span');
+            innerWrapper.className = 'reveal-btn-inner';
+
+            const normalSpan = document.createElement('span');
+            normalSpan.className = 'normal-text';
+
+            const hoverSpan = document.createElement('span');
+            hoverSpan.className = 'hover-text';
+
+            text.split('').forEach((char, i) => {
+                const charNormal = document.createElement('span');
+                charNormal.textContent = char === ' ' ? '\u00A0' : char;
+                charNormal.style.transitionDelay = `${i * 0.02}s`;
+                normalSpan.appendChild(charNormal);
+
+                const charHover = document.createElement('span');
+                charHover.textContent = char === ' ' ? '\u00A0' : char;
+                charHover.style.transitionDelay = `${i * 0.02}s`;
+                hoverSpan.appendChild(charHover);
+            });
+
+            innerWrapper.appendChild(normalSpan);
+            innerWrapper.appendChild(hoverSpan);
+            btn.appendChild(innerWrapper);
+        });
     </script>
 </body>
 
