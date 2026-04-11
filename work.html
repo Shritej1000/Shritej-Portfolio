@@ -34,8 +34,7 @@
         }
 
         html {
-            scroll-behavior: smooth;
-            overflow-x: hidden;
+            scroll-behavior: auto;
         }
 
         body {
@@ -45,7 +44,6 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             overflow-x: hidden;
-            overscroll-behavior: none;
         }
 
         .section,
@@ -91,20 +89,27 @@
         /* --- NAVIGATION --- */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 24px 0;
-            background: rgba(249, 249, 251, 0.95);
-            backdrop-filter: blur(10px);
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: var(--container-width);
+            padding: 12px 32px;
+            background: rgba(249, 249, 251, 0.9);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-radius: 100px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             z-index: 100;
-            transition: padding 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .nav-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 100%;
         }
 
         .logo {
@@ -139,30 +144,43 @@
 
         .mobile-menu {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: var(--bg-color);
+            top: 85px;
+            left: 50%;
+            right: auto;
+            width: 90%;
+            max-width: 450px;
+            height: auto;
+            background: rgba(249, 249, 251, 0.85);
+            -webkit-backdrop-filter: blur(25px);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            gap: 40px;
+            gap: 24px;
+            padding: 48px 24px;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transform-origin: top center;
+            transform: translate(-50%, -15px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             z-index: 101;
         }
 
         .mobile-menu.active {
             opacity: 1;
             pointer-events: all;
+            transform: translate(-50%, 0) scale(1);
         }
 
         .mobile-menu a {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-family: 'Playfair Display', serif;
+            width: 100%;
+            text-align: center;
         }
 
         .hamburger.active .bar:nth-child(2) {
@@ -281,11 +299,14 @@
         footer {
             background-color: #111111;
             color: #FFFFFF;
-            padding: 100px 0 60px;
+            padding: 120px 0 80px;
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            width: 100%;
+            margin-bottom: 0;
+            position: relative;
         }
 
         .footer-pre-header {
@@ -328,13 +349,30 @@
                 overflow-x: hidden;
                 width: 100%;
                 position: relative;
-                -webkit-overflow-scrolling: touch;
+            }
+
+            nav {
+                top: 20px;
+                width: 90%;
+            }
+
+            .logo img {
+                height: 28px !important;
+            }
+
+            .container.page-hero {
+                padding-top: 100px;
+                padding-bottom: 40px;
+                min-height: auto;
+            }
+
+            .page-hero h1 {
+                font-size: 2.5rem;
             }
 
             .container {
                 width: 100%;
                 padding: 0 20px;
-                overflow: hidden;
             }
 
             .work-grid {
@@ -433,7 +471,7 @@
 
     <nav>
         <div class="container nav-content">
-            <a href="home.html" class="logo"><img src="logo.png" alt="Shritej Patil" style="height: 72px;"></a>
+            <a href="home.html" class="logo"><img src="logo.png" alt="Shritej Patil" style="height: 40px;"></a>
             <div class="nav-links" style="align-items: center;">
                 <a href="home.html">Home</a>
                 <a href="work.html" style="color:var(--text-primary); font-weight:500;">Work</a>
@@ -511,7 +549,7 @@
         </div>
     </section>
 
-    <footer id="contact" class="section visible">
+    <footer id="contact" class="visible">
         <div class="container">
             <p class="footer-pre-header">Have an idea?</p>
             <a href="https://mail.google.com/mail/?view=cm&fs=1&to=shritejpatil2806@gmail.com" target="_blank"
